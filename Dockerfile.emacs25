@@ -14,7 +14,10 @@ RUN apt-get update \
 
 COPY .spacemacs "${UHOME}/.spacemacs"
 COPY private "${UHOME}/.emacs.d/private"
+RUN mkdir -p "${UHOME}/.emacs.d/elpa/gnupg/"
+RUN chown -R spacemacser "${UHOME}/.emacs.d/elpa"
+RUN gpg --homedir "${UHOME}/.emacs.d/elpa/gnupg/" --receive-keys 066DAFCB81E42C40
 
 # Install layers dependencies and initialize the user
 RUN install-deps
-
+WORKDIR "${UHOME}"
